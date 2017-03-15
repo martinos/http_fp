@@ -61,5 +61,3 @@ module Utils
   @@at = -> key, hash { pp hash; hash[key] }.curry
   @@get = -> method, obj { obj.send(method) }.curry
 end
-
-

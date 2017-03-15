@@ -1,7 +1,8 @@
 require 'http_fp'
 require 'active_support'
 require 'pp'
-
+#
+# https://www.diffchecker.com/ihCGIKyG
 module HttpFp::Rack
   mattr_reader :to_env
   @@to_env = -> req { 
@@ -18,13 +19,15 @@ module HttpFp::Rack
     res["SERVER_NAME"] = "#{uri.host}" 
     res["SERVER_PORT"] = "#{uri.port}" 
     res["QUERY_STRING"] = "#{uri.query}" 
+    res["SCRIPT_NAME"] = "" 
     # Needed for rack 
     res["rack.version"] = ["2.2"]
-    res["rack.input"] = StringIO.new(String.new.force_encoding(Encoding::ASCII_8BIT)) 
+    res["rack.input"] = StringIO.new(String.new(req[:body]).force_encoding(Encoding::ASCII_8BIT)) 
     res["rack.errors"] = StringIO.new
     res["rack.multithread"] = false
     res["rack.multiprocess"] = false
     res["rack.run_once"] = true
+    res["rack.hijack"] = lambda { raise NotImplementedError, "only partial hijack is supported."} 
 
     res.merge!(req[:header] >>+ @@headers_to_env)
     content_type = res.delete("HTTP_CONTENT_TYPE")
