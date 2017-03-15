@@ -40,6 +40,7 @@ class HttpFp::RackTest < MiniTest::Test
     assert_equal "localhost:3000", env["HTTP_HOST"]
     assert_equal "localhost", env["SERVER_NAME"]
     assert_equal "3000", env["SERVER_PORT"]
+    assert_equal "name=martin", env["QUERY_STRING"]
   end
 
   def test_dont_prepend_HTTP_to_content_type_and_content_length

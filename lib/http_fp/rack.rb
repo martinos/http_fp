@@ -17,6 +17,7 @@ module HttpFp::Rack
     res["HTTP_HOST"] = "#{uri.host}:#{uri.port}" 
     res["SERVER_NAME"] = "#{uri.host}" 
     res["SERVER_PORT"] = "#{uri.port}" 
+    res["QUERY_STRING"] = "#{uri.query}" 
     # Needed for rack 
     res["rack.version"] = ["2.2"]
     res["rack.input"] = StringIO.new(String.new.force_encoding(Encoding::ASCII_8BIT)) 
