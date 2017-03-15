@@ -3,7 +3,7 @@ require 'http_fp'
 
 module HttpFp::NetHttp
   include HttpFp
-  mattr_accessor :method_str_to_req, :_send, :net_resp
+  mattr_reader :method_str_to_req, :_send, :net_resp
 
   @@method_str_to_req = {"GET" => Net::HTTP::Get, "POST" => Net::HTTP::Post, "DELETE" => Net::HTTP::Delete, "PUT" => Net::HTTP::Put}
 

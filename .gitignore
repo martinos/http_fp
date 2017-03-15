@@ -12,3 +12,6 @@
 *.o
 *.a
 mkmf.log
+# These two are temporary
+btrfly.rb
+coucou.txt
