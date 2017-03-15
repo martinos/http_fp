@@ -58,6 +58,6 @@ module Utils
   @@default = -> default, a { a.nil? ? default : a }.curry
   @@and_then = -> f , a { a.nil? ? nil : f.(a) }.curry
   @@map = -> f, enum { enum.map(&f) }.curry
-  @@at = -> key, hash { pp hash; hash[key] }.curry
+  @@at = -> key, hash { hash; hash[key] }.curry
   @@get = -> method, obj { obj.send(method) }.curry
 end

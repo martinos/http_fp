@@ -6,7 +6,9 @@ require 'rack'
 # https://www.diffchecker.com/ihCGIKyG
 
 module HttpFp::Rack
-  mattr_reader :to_env
+  mattr_reader :to_env, :send, :rack_resp_to_resp
+
+  @@send_ = -> rack { to_env >>~ rack.method(:call) >>~ rack_resp_to_resp }
   @@to_env = -> request {
     session ||= {}
     session_options ||= {}
@@ -39,24 +41,18 @@ module HttpFp::Rack
     env['rack.session']    = session
     env['rack.session.options'] = session_options
 
-    header.each do |k, v|
-      env["HTTP_#{k.tr('-','_').upcase}"] = v
-    end
+    header.each { |k, v| env["HTTP_#{k.tr('-','_').upcase}"] = v }
     env
   }
+
+  @@rack_resp_to_resp = -> resp { {status: resp[0], 
+                                   header: resp[1], 
+                                   body: @@body_from_rack_response.(resp[2])} }
+
+  @@body_from_rack_response = -> response {
+    body = ""
+    response.each { |line| body << line }
+    response.close if response.respond_to?(:close)
+    body
+  }
 end
-
-# LINT STUFF
-
-# default_env = {"REQUEST_METHOD" => "GET",
-#                "SERVER_NAME" => "DUMMY",
-#                "SERVER_PORT" => "9292",
-#                "QUERY_STRING" => "",
-#                "rack.version" => ["2.2"],
-#                "rack.input" => StringIO.new(String.new.force_encoding(Encoding::ASCII_8BIT)) ,
-#                "rack.errors" => StringIO.new,
-#                "rack.multithread" => false,
-#                "rack.multiprocess" => false,
-#                "rack.run_once" => true,
-#                "rack.url_scheme" => "http",
-#                "PATH_INFO" => "/"}

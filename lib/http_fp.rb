@@ -5,12 +5,13 @@ require 'uri'
 
 module HttpFp
   include Utils
-  mattr_accessor :verb, :with_host, :with_path, :with_query, :withUri, :with_json, :with_headers, :add_headers,  :fetch, :to_curl, :out_curl, :resp_to_json, :to_uri, :empty_req
+  mattr_accessor :verb, :with_host, :with_path, :with_query, :withUri, :with_json, :with_headers, :add_headers,  :fetch, :to_curl, :out_curl, :resp_to_json, :to_uri, :empty_req, :run, :json_headers
 
-  @@empty_req = {proto: "HTTP/1.1", host: nil, path: "/", query: {}, header: {}, method: "GET", body: ""}
+  @@empty_req = {proto: "HTTP/1.1", host: "http://example.com", path: "/", query: {}, header: {}, method: "GET", body: ""}
   @@empty_resp = {status: nil, header: {}, body: {}}
 
-  @@verb = -> verb { @@empty_req.merge({method: verb.upcase}) }
+  @@run = -> fn { fn.(@@empty_req) }
+  @@verb = -> verb, req { req.merge({method: verb.upcase}) }.curry
   @@with_host = -> host, req { req[:host] = host; req }.curry
   @@with_path = -> path, req { req[:path] = path; req }.curry
   @@with_query = -> params, req { req[:query] = params ; req }.curry
@@ -32,4 +33,8 @@ module HttpFp
     %{curl -X '#{req[:method]}' '#{@@to_uri.(req).to_s}' #{req[:header].map(&@@header_to_curl).join(" ")}}
   }
   @@out_curl = -> req { @@print.(to_curl.(req)) ; req}
+  @@json_headers = 
+    {"accept"     => "application/json",
+     'Content-Type' => 'application/json',
+     "user-agent" => "paw/3.0.11 (macintosh; os x/10.11.6) gcdhttprequest"}
 end

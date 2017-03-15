@@ -12,7 +12,7 @@ module HttpFp::NetHttp
     req_ = method_str_to_req[req[:method]].new(uri)
     req_.set_body_internal(req[:body]) if req[:body]
     header = req[:header]
-    header.each { |key, val| req_[key] = val}
+    header.each { |key, val| req_[key] = val }
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = uri.scheme == 'https'
     # http.set_debug_output($stdout)
