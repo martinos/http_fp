@@ -1,44 +1,49 @@
 require 'http_fp'
 require 'active_support'
 require 'pp'
+require 'rack'
 #
 # https://www.diffchecker.com/ihCGIKyG
+
 module HttpFp::Rack
   mattr_reader :to_env
-  @@to_env = -> req { 
-    uri = req >>+ HttpFp.to_uri 
-    res = {}
-    res["REQUEST_PATH"] = req[:path]
-    res["SERVER_PROTOCOL"] = req[:proto]
-    res["HTTP_VERSION"] = req[:proto]
-    res["rack.url_scheme"] = uri.scheme 
-    res["REQUEST_METHOD"] = req[:method] 
-    res["PATH_INFO"] = uri.path 
+  @@to_env = -> request {
+    session ||= {}
+    session_options ||= {}
 
-    res["HTTP_HOST"] = "#{uri.host}:#{uri.port}" 
-    res["SERVER_NAME"] = "#{uri.host}" 
-    res["SERVER_PORT"] = "#{uri.port}" 
-    res["QUERY_STRING"] = "#{uri.query}" 
-    res["SCRIPT_NAME"] = "" 
-    # Needed for rack 
-    res["rack.version"] = ["2.2"]
-    res["rack.input"] = StringIO.new(String.new(req[:body]).force_encoding(Encoding::ASCII_8BIT)) 
-    res["rack.errors"] = StringIO.new
-    res["rack.multithread"] = false
-    res["rack.multiprocess"] = false
-    res["rack.run_once"] = true
-    res["rack.hijack"] = lambda { raise NotImplementedError, "only partial hijack is supported."} 
+    uri = request >>+ HttpFp.to_uri 
+    header = (request[:header] || {}).dup
+    body = request[:body] || ''
 
-    res.merge!(req[:header] >>+ @@headers_to_env)
-    content_type = res.delete("HTTP_CONTENT_TYPE")
-    res["CONTENT_TYPE"] = content_type if content_type
-    content_length = res.delete("HTTP_CONTENT_LENGTH")
-    res["CONTENT_LENGTH"] = content_length if content_length
-    res
+    content_type_key, val = header.detect { |key, val| puts key; key.downcase == "content-type"}
+    env = {
+      # CGI variables specified by Rack
+      'REQUEST_METHOD' => request[:method].to_s.upcase,
+      'CONTENT_TYPE'   => header.delete(content_type_key),
+      'CONTENT_LENGTH' => body.bytesize,
+      'PATH_INFO'      => uri.path,
+      'QUERY_STRING'   => uri.query || '',
+      'SERVER_NAME'    => uri.host,
+      'SERVER_PORT'    => uri.port,
+      'SCRIPT_NAME'    => ""
+    }
+
+    env['HTTP_AUTHORIZATION'] = 'Basic ' + [uri.userinfo].pack('m').delete("\r\n") if uri.userinfo
+
+    # Rack-specific variables
+    env['rack.input']      = StringIO.new(body)
+    env['rack.errors']     = $stderr
+    env['rack.version']    = ::Rack::VERSION
+    env['rack.url_scheme'] = uri.scheme
+    env['rack.run_once']   = true
+    env['rack.session']    = session
+    env['rack.session.options'] = session_options
+
+    header.each do |k, v|
+      env["HTTP_#{k.tr('-','_').upcase}"] = v
+    end
+    env
   }
-
-  @@headers_to_env = -> headers { Hash[ headers.map { |header| @@header_to_env.(header) } ] }
-  @@header_to_env = -> header { ["HTTP_" + header[0].upcase.gsub(/-/i, "_"), header[1]] }
 end
 
 # LINT STUFF
