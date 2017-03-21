@@ -3,15 +3,15 @@ require 'http_fp'
 
 module HttpFp::NetHttp
   include HttpFp
-  mattr_reader :method_str_to_req, :_send, :net_resp
+  mattr_reader :method_str_to_req, :server, :net_resp
 
   @@method_str_to_req = {"GET" => Net::HTTP::Get, "POST" => Net::HTTP::Post, "DELETE" => Net::HTTP::Delete, "PUT" => Net::HTTP::Put}
 
-  @@_send = -> req { 
+  @@server = -> req { 
     uri = to_uri.(req) 
-    req_ = method_str_to_req[req[:method]].new(uri)
+    req_ = method_str_to_req.fetch(req.fetch(:method)).new(uri)
     req_.set_body_internal(req[:body]) if req[:body]
-    header = req[:header]
+    header = req.fetch(:header)
     header.each { |key, val| req_[key] = val }
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = uri.scheme == 'https'

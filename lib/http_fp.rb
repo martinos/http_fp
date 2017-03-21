@@ -25,7 +25,7 @@ module HttpFp
     "-H '#{a[0]}: #{a[1]}'"
   }
   @@to_uri = -> req {
-    uri = URI(req[:host])
+    uri = URI(req.fetch(:host))
     req[:query] && uri.query = URI.encode_www_form(req[:query])
     uri.path = req[:path]
     uri}

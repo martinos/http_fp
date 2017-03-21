@@ -49,7 +49,7 @@ auth_headers_from_user = -> resp {
    "X-API-TOKEN" => resp["user"]["authentication_token"] }}
 
 default_cache = cache.(expired.(30)).("coucou.txt")
-fetch = out_curl >>~ (default_cache.(HttpFp::NetHttp._send)) >>~ resp_to_json
+fetch = out_curl >>~ (default_cache.(HttpFp::NetHttp.server)) >>~ resp_to_json
 
 credentials = -> env, email, pwd { sign_in.(email).(pwd) >>+ (env >>~ fetch >>~ auth_headers_from_user )}.curry
 

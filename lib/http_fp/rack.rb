@@ -6,9 +6,9 @@ require 'rack'
 # https://www.diffchecker.com/ihCGIKyG
 
 module HttpFp::Rack
-  mattr_reader :to_env, :send, :rack_resp_to_resp
+  mattr_reader :to_env, :server, :rack_resp_to_resp
 
-  @@send_ = -> rack { to_env >>~ rack.method(:call) >>~ rack_resp_to_resp }
+  @@server = -> rack { to_env >>~ rack.method(:call) >>~ rack_resp_to_resp }
   @@to_env = -> request {
     session ||= {}
     session_options ||= {}
