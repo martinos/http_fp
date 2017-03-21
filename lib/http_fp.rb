@@ -5,7 +5,7 @@ require 'uri'
 
 module HttpFp
   include Utils
-  mattr_accessor :verb, :with_host, :with_path, :with_query, :withUri, :with_json, :with_headers, :add_headers,  :fetch, :to_curl, :out_curl, :resp_to_json, :to_uri, :empty_req, :run, :json_headers
+  mattr_accessor :verb, :with_host, :with_path, :with_query, :withUri, :with_json, :with_headers, :add_headers,  :fetch, :to_curl, :out_curl, :json_resp, :to_uri, :empty_req, :run, :json_headers
 
   @@empty_req = {proto: "HTTP/1.1", host: "http://example.com", path: "/", query: {}, header: {}, method: "GET", body: ""}
   @@empty_resp = {status: nil, header: {}, body: {}}
@@ -19,7 +19,7 @@ module HttpFp
   @@with_headers = -> header, req { req[:header] = header ; req }.curry
   @@add_headers = -> header, req { req[:header].merge!(header); req }.curry
 
-  @@resp_to_json = Utils.at.(:body) >>~ Utils.parse_json
+  @@json_resp = Utils.at.(:body) >>~ Utils.parse_json
   @@print = -> a { $stdout.puts a.pretty_inspect ; a }
   @@to_uri = -> req {
     uri = URI(req.fetch(:host))
