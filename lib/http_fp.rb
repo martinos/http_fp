@@ -11,7 +11,7 @@ module HttpFp
   @@empty_resp = {status: nil, header: {}, body: {}}
 
   @@run = -> fn { fn.(@@empty_req) }
-  @@verb = -> verb, req { req.merge({method: verb.upcase}) }.curry
+  @@verb = -> verb, req { req.merge({method: verb.to_s.upcase}) }.curry
   @@with_host = -> host, req { req[:host] = host; req }.curry
   @@with_path = -> path, req { req[:path] = path; req }.curry
   @@with_query = -> params, req { req[:query] = params ; req }.curry
