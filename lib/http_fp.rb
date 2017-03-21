@@ -21,18 +21,11 @@ module HttpFp
 
   @@resp_to_json = Utils.at.(:body) >>~ Utils.parse_json
   @@print = -> a { $stdout.puts a.pretty_inspect ; a }
-  @@header_to_curl = -> a {
-    "-H '#{a[0]}: #{a[1]}'"
-  }
   @@to_uri = -> req {
     uri = URI(req.fetch(:host))
     req[:query] && uri.query = URI.encode_www_form(req[:query])
     uri.path = req[:path]
     uri}
-  @@to_curl = -> req {
-    %{curl -X '#{req[:method]}' '#{@@to_uri.(req).to_s}' #{req[:header].map(&@@header_to_curl).join(" ")}}
-  }
-  @@out_curl = -> req { @@print.(to_curl.(req)) ; req}
   @@json_headers = 
     {"accept"     => "application/json",
      'Content-Type' => 'application/json',
