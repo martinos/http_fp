@@ -1,6 +1,6 @@
 # HttpFp
 
-TODO: Write a gem description
+This is an experiment to use Fp principle to uery http servers.
 
 ## Installation
 
@@ -20,11 +20,9 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
-
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/http_fp/fork )
+1. Fork it ( https://github.com/martinos/http_fp/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
