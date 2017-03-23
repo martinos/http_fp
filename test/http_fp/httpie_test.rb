@@ -18,22 +18,11 @@ class HttpFp::CurlTest < Minitest::Test
   def test_should_return_a_curl_command
     res = <<EOF
 echo $'{"user":"martin"}' |\\
-http --json GET 'https://api.github.com/coucou?' \\
+http GET 'https://api.github.com/coucou?' \\
     'accept: application/json' \\
     'Content-Type: application/json' \\
     'user-agent: paw/3.0.11 (macintosh; os x/10.11.6) gcdhttprequest'
 EOF
     assert_equal res.chomp, @curl
   end
-
-# http --json POST 'https://app.btrfly.net/api/airports/SFO/newsfeed' \
-#     'Accept':'application/json' \
-#     'X-API-TOKEN':'KxwCwwZisRisjaNjkQzirnRsypxZDzWs_w' \
-#     'Content-Type':'application/json; charset=utf-8' \
-#     'X-API-EMAIL':'patrick.lafleur@creationobjet.com' \
-#     newsfeed_thread:="{
-#   \"title\": \"Qdqfqdsfqdsfqsdfsd fieffés \",
-#   \"mentions\": []
-# }"
-
 end
