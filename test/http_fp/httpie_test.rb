@@ -17,11 +17,11 @@ class HttpFp::CurlTest < Minitest::Test
 
   def test_should_return_a_curl_command
     res = <<EOF
+echo $'{"user":"martin"}' |\\
 http --json GET 'https://api.github.com/coucou?' \\
     'accept: application/json' \\
     'Content-Type: application/json' \\
-    'user-agent: paw/3.0.11 (macintosh; os x/10.11.6) gcdhttprequest' \\
-    $'{"user":"martin"}'
+    'user-agent: paw/3.0.11 (macintosh; os x/10.11.6) gcdhttprequest'
 EOF
     assert_equal res.chomp, @curl
   end

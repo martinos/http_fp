@@ -9,7 +9,7 @@ module HttpFp::Httpie
   @@req = -> req {
     first_part = %{http --json #{req[:method]} '#{HttpFp::to_uri.(req).to_s}' #{req[:header].map(&@@header_to_curl).join(" ")}}
     if req[:body] && !req[:body].empty?
-      first_part + %{ \\\n    $'#{req[:body].gsub("'", "\'")}'}
+      %{echo $'#{req[:body].gsub("'", "\'")}' |\\\n#{first_part}}
     else
       first_part
     end
