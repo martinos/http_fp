@@ -5,12 +5,16 @@ require 'uri'
 
 module HttpFp
   include Utils
-  mattr_accessor :verb, :with_host, :with_path, :with_query, :withUri, :with_json, :with_headers, :add_headers,  :fetch, :to_curl, :out_curl, :json_resp, :to_uri, :empty_req, :run, :json_headers
+
+  mattr_accessor :verb, :with_host, :with_path, :with_query, :withUri, 
+                 :with_json, :with_headers, :add_headers,  :fetch, :to_curl, 
+                 :out_curl, :json_resp, :to_uri, :empty_req, :json_headers, 
+                 :run_
 
   @@empty_req = {proto: "HTTP/1.1", host: "http://example.com", path: "/", query: {}, header: {}, method: "GET", body: ""}
   @@empty_resp = {status: nil, header: {}, body: {}}
 
-  @@run = -> fn { fn.(@@empty_req) }
+  @@run_ = -> fn { fn.(@@empty_req) } # underscore because run conflicts with run fn in minitest
   @@verb = -> verb, req { req.merge({method: verb.to_s.upcase}) }.curry
   @@with_host = -> host, req { req[:host] = host; req }.curry
   @@with_path = -> path, req { req[:path] = path; req }.curry

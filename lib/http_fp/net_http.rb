@@ -5,7 +5,7 @@ module HttpFp::NetHttp
   include HttpFp
   mattr_reader :method_str_to_req, :server, :net_resp
 
-  @@method_str_to_req = {"GET" => Net::HTTP::Get, "POST" => Net::HTTP::Post, "DELETE" => Net::HTTP::Delete, "PUT" => Net::HTTP::Put, "PATCH" => Net::Http::Patch}
+  @@method_str_to_req = {"GET" => Net::HTTP::Get, "POST" => Net::HTTP::Post, "DELETE" => Net::HTTP::Delete, "PUT" => Net::HTTP::Put, "PATCH" => Net::HTTP::Patch}
 
   @@server = -> req { 
     uri = to_uri.(req) 
