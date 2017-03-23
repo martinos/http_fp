@@ -12,7 +12,7 @@ class HttpFp::CurlTest < Minitest::Test
       with_headers.(json_headers) >>~ 
       with_host.("https://api.github.com") >>~ 
       with_json.({user: "martin"}) >>~
-      to_curl >>+ run_
+      HttpFp::Curl.req >>+ run_
   end
 
   def test_should_return_a_curl_command

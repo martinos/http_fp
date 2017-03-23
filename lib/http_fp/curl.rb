@@ -4,9 +4,9 @@ require 'http_fp'
 module HttpFp::Curl
   include HttpFp
 
-  mattr_accessor :print_curl, :to_curl
+  mattr_accessor :print_curl, :req
 
-  @@to_curl = -> req {
+  @@req = -> req {
     first_part = %{curl -X '#{req[:method]}' '#{HttpFp::to_uri.(req).to_s}' #{req[:header].map(&@@header_to_curl).join(" ")}}
     if req[:body] && !req[:body].empty?
       first_part + %{\n\    -d $'#{req[:body].gsub("'", "\'")}'}
