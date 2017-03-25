@@ -14,6 +14,4 @@ module HttpFp::Httpie
       first_part
     end
   }
-  @@header_to_curl = -> a {
-    "\\\n    '#{a[0]}: #{a[1]}'"}
 end
