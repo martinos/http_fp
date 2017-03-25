@@ -1,6 +1,6 @@
 # HttpFp
 
-This is an experiment to use Fp principle to uery http servers.
+This is an experiment to use Functional Programming principles to query http servers.
 
 ## Installation
 
