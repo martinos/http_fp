@@ -1,6 +1,6 @@
 # HttpFp
 
-This is an experiment to use Functional Programming principles to query http servers.
+Functional http client in Ruby.
 
 ## Installation
 
