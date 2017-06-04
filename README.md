@@ -66,7 +66,7 @@ pp query.(empty_request)
  :method=>"GET",
  :body=>""}
 ```
-In order to run the query, you can combine the query with a "server" function (lambda) that takes a "request", sends it to the server and returns a http "response".
+In order to `run` the query, you can combine the query with a "server" function (lambda) that takes a "request", sends it to the server and returns a http "response".
 
 ```ruby
 HttpFp::NetHttp.server.(query.(empty_req))
