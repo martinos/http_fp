@@ -2,22 +2,6 @@
 
 Functional http client in Ruby.
 
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'http_fp'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install http_fp
-
 ## Usage
 
 ### Basics 
@@ -49,9 +33,9 @@ query = verb.("get") >>~
         with_host.("https://api.github.com") >>~ 
         add_headers.(json_headers)
 ```
-In `query` variable is a function that is created by combining builder functions together.
+The `query` variable is a builder function that is created by combining builder functions together.
 
-This query function takes a hash as a parameter, and returns a decorated hash decorated by the builders.
+This `query` function takes a hash as a parameter, and returns a hash decorated by the builders.
  
 We need an initialized request (`empty_request`) to demonstrate how it works.
 
