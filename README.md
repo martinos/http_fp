@@ -33,7 +33,7 @@ query = verb.("get") >>~
         with_host.("https://api.github.com") >>~ 
         add_headers.(json_headers)
 ```
-The `query` variable is a builder function that is created by combining builder functions together.
+The `query` variable is a builder function that is created by combining multiple builder functions together.
 
 This `query` function takes a hash as a parameter, and returns a hash decorated by the builders.
  
