@@ -85,11 +85,15 @@ HttpFp::NetHttp.server.(query.(empty_req))
 
 ```
 
-You can also use the pipe operator (`>>+`) and the run function. The `run` function takes a function as parameter and applies the `empty_req` to it.
+You can also use the pipe operator (`>>+`) and the run function. The `run_` function takes a function as parameter and applies the `empty_req` to it.
 
-
+Here is it's definition:
+```ruby
+run_ = -> fn { fn.(empty_req) }
 ```
-(query >>~ HttpFp::NetHttp.server) >>+ run
+
+```run
+(query >>~ HttpFp::NetHttp.server) >>+ run_
 ```
 
 
