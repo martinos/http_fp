@@ -37,9 +37,8 @@ The `query` variable is a builder function that is created by combining multiple
 
 This `query` function takes a hash as a parameter, and returns a hash decorated by the builders.
  
-We need an initialized request (`empty_request`) to demonstrate how it works.
+To demonstrate how it works. We need an initialized request (`empty_request`). Here's the `empty_request`:
 
-Here's the `empty_request`
 ```ruby
 pp empty_request
 # => 
