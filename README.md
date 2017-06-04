@@ -10,7 +10,7 @@ Functional http client in Ruby.
 
 In order to query an HTTP server you will need to build a request hash.
 
-Here is an example of a request:
+Here's an example of a request:
 
 ```ruby
 {:proto=>"HTTP/1.1",
