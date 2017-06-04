@@ -39,7 +39,7 @@ This `query` function takes a hash as a parameter, and returns a hash decorated 
  
 We need an initialized request (`empty_request`) to demonstrate how it works.
 
-Here is the `empty_request`
+Here's the `empty_request`
 ```ruby
 pp empty_request
 # => 
@@ -67,7 +67,7 @@ pp query.(empty_request)
  :method=>"GET",
  :body=>""}
 ```
-In order to run the query, you can combine the query with a "server" function (lambda) that takes a `request` sends it to the server and returns a http "response".
+In order to run the query, you can combine the query with a "server" function (lambda) that takes a "request", sends it to the server and returns a http "response".
 
 ```ruby
 HttpFp::NetHttp.server.(query.(empty_req))
@@ -86,7 +86,7 @@ HttpFp::NetHttp.server.(query.(empty_req))
 
 ```
 
-You can also use the pipe operator (`>>+`) and the run function. Run function takes a function as parameter and applies the `empty_req` to it.
+You can also use the pipe operator (`>>+`) and the run function. The `run` function takes a function as parameter and applies the `empty_req` to it.
 
 
 ```
