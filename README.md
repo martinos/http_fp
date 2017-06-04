@@ -41,15 +41,13 @@ Here is an example of a request:
  :body=>""}
 ```
 
-To build that request you can use builder functions and the function composition operator (`>>~`). Every builder function adds values to the response object.
-
-Example: 
+To build that request you can use builder functions and the function composition operator (`>>~`). Every builder function adds values to the response object.  Example: 
 
 ```
 query = verb.("get") >>~ 
-				with_path.("/users/martinos/repos") >>~ 
-				with_host.("https://api.github.com") >>~ 
-				add_headers.(json_headers)
+        with_path.("/users/martinos/repos") >>~ 
+        with_host.("https://api.github.com") >>~ 
+        add_headers.(json_headers)
 ```
 In `query` variable is a function that is created by combining builder functions together.
 
