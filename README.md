@@ -93,7 +93,7 @@ run_ = -> fn { fn.(empty_req) }
 ```
 
 ```run
-(query >>~ HttpFp::NetHttp.server) >>+ run_
+query >>~ HttpFp::NetHttp.server >>+ run_
 ```
 
 
