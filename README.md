@@ -25,7 +25,7 @@ Here's an example of a request:
  :body=>""}
 ```
 
-To build that request you can use builder functions and the function composition operator (`>>~`). Every builder function adds values to the response object.  Example: 
+To build that request you can use builder functions and the function composition operator (`[>>~](https://github.com/martinos/http_fp/blob/master/lib/http_fp/operators.rb#L4)`). Every builder function adds values to the response object.  Example: 
 
 ```ruby
 query = verb.("get") >>~ 
