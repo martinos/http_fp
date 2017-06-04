@@ -28,7 +28,7 @@ In order to query an HTTP server you will need to build a request hash.
 
 Here is an example of a request:
 
-```
+```ruby
 {:proto=>"HTTP/1.1",
  :host=>"http://api.github.com",
  :path=>"/users/martinos/repos",
@@ -43,7 +43,7 @@ Here is an example of a request:
 
 To build that request you can use builder functions and the function composition operator (`>>~`). Every builder function adds values to the response object.  Example: 
 
-```
+```ruby
 query = verb.("get") >>~ 
         with_path.("/users/martinos/repos") >>~ 
         with_host.("https://api.github.com") >>~ 
@@ -56,7 +56,7 @@ This query function takes a hash as a parameter, and returns a decorated hash de
 We need an initialized request (`empty_request`) to demonstrate how it works.
 
 Here is the `empty_request`
-```
+```ruby
 pp empty_request
 # => 
 {:proto=>"HTTP/1.1",
@@ -69,7 +69,7 @@ pp empty_request
 ```
 
 We apply the empty_request to the query that we've built.
-```
+```ruby
 pp query.(empty_request)
 # => 
 {:proto=>"HTTP/1.1",
