@@ -53,11 +53,11 @@ In `query` variable is a function that is created by combining builder functions
 
 This query function takes a hash as a parameter, and returns a decorated hash decorated by the builders.
  
-We need an initialized request (`empty_request`) to demonstrate how it works.
+We need an initialized request (`empty_req`) to demonstrate how it works.
 
-Here is the `empty_request`
+Here is the `empty_req`
 ```
-pp empty_request
+pp empty_req
 # => 
 {:proto=>"HTTP/1.1",
  :host=>"http://example.com",
@@ -68,9 +68,9 @@ pp empty_request
  :body=>""}
 ```
 
-We apply the empty_request to the query that we've built.
+We apply the empty_req to the query that we've built.
 ```
-pp query.(empty_request)
+pp query.(empty_req)
 # => 
 {:proto=>"HTTP/1.1",
  :host=>"https://api.github.com",
