@@ -2,22 +2,6 @@
 
 Functional http client in Ruby.
 
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'http_fp'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install http_fp
-
 ## Usage
 
 ### Basics 
@@ -26,9 +10,9 @@ Or install it yourself as:
 
 In order to query an HTTP server you will need to build a request hash.
 
-Here is an example of a request:
+Here's an example of a request:
 
-```
+```ruby
 {:proto=>"HTTP/1.1",
  :host=>"http://api.github.com",
  :path=>"/users/martinos/repos",
@@ -41,22 +25,21 @@ Here is an example of a request:
  :body=>""}
 ```
 
-To build that request you can use builder functions and the function composition operator (`>>~`). Every builder function adds values to the response object.  Example: 
+To build that request you can use builder functions and the function composition operator ([`>>~`](https://github.com/martinos/http_fp/blob/master/lib/http_fp/operators.rb#L4)). Every builder function adds values to the response object.  Example: 
 
-```
+```ruby
 query = verb.("get") >>~ 
         with_path.("/users/martinos/repos") >>~ 
         with_host.("https://api.github.com") >>~ 
         add_headers.(json_headers)
 ```
-In `query` variable is a function that is created by combining builder functions together.
+The `query` variable is a builder function that is created by combining multiple builder functions together.
 
-This query function takes a hash as a parameter, and returns a decorated hash decorated by the builders.
+This `query` function takes a hash as a parameter, and returns a hash decorated by the builders.
  
-We need an initialized request (`empty_req`) to demonstrate how it works.
+To demonstrate how it works, we need an initialized request (`empty_req`). Here's the `empty_req`:
 
-Here is the `empty_req`
-```
+```ruby
 pp empty_req
 # => 
 {:proto=>"HTTP/1.1",
@@ -68,8 +51,9 @@ pp empty_req
  :body=>""}
 ```
 
-We apply the empty_req to the query that we've built.
-```
+<<<<<<< HEAD
+We apply the `empty_req` to the query that we've built.
+```ruby
 pp query.(empty_req)
 # => 
 {:proto=>"HTTP/1.1",
@@ -83,7 +67,7 @@ pp query.(empty_req)
  :method=>"GET",
  :body=>""}
 ```
-In order to run the query, you can combine the query with a "server" function (lambda) that takes a `request` sends it to the server and returns a http "response".
+In order to `run` the query, you can combine the query with a "server" function (lambda) that takes a "request", sends it to the server and returns a http "response".
 
 ```ruby
 HttpFp::NetHttp.server.(query.(empty_req))
@@ -102,11 +86,15 @@ HttpFp::NetHttp.server.(query.(empty_req))
 
 ```
 
-You can also use the pipe operator (`>>+`) and the run function. Run function takes a function as parameter and applies the `empty_req` to it.
+You can also use the pipe operator ([`>>+`](https://github.com/martinos/http_fp/blob/master/lib/http_fp/operators.rb#L8)) and the run function. The `run_` function takes a function as parameter and applies the `empty_req` to it.
 
-
+Here is it's definition:
+```ruby
+run_ = -> fn { fn.(empty_req) }
 ```
-(query >>~ HttpFp::NetHttp.server) >>+ run
+
+```run
+query >>~ HttpFp::NetHttp.server >>+ run_
 ```
 
 
