@@ -1,7 +1,6 @@
 require 'http_fp'
 require 'active_support'
 require 'pp'
-require 'rack'
 #
 # https://www.diffchecker.com/ihCGIKyG
 
