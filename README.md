@@ -102,6 +102,61 @@ Since a "server" is just a function that takes an HTTP request and returns an HT
 query >>~ HttpFp::Rack.server.(Rails.application) >>+ run_
 ```
 
+## Middlewares
+
+Since we are using composable functions to build our request and to query the web server, it's very easy to create our own "middlewares".
+
+If we want to all the request and the response we can create a simple function such as:
+
+```
+debug_fn = -> print, fn, input {
+  print.("Input: \n")
+  print.(input.to_s)
+  output = fn.(input)
+  print.("Output: \n")
+  print.(output)
+  output
+}.curry
+
+```
+
+the `print` param is a function that prints an object.
+
+```
+printer = -> a { print a; a } 
+query >>~ debug_fn.(printer).(HttpFp::Rack.server.(Rails.application)) >>+ run_
+```
+
+of course you can change the printer to print to the log file.
+
+```
+printer = -> a { logger.debug(a) ; a }
+```
+
+### Curl, Httpie output
+
+If you want to generate documentation with curl commands you can use a simple function such as:
+
+```
+curl = -> a { puts HttpFp::Curl.req.(a) ; a }.curry
+```
+
+Then you can use it with the query and the server function.
+
+```run
+query >>~ curl >>~ HttpFp::NetHttp.server >>+ run_
+```
+
+This will output:
+
+```
+curl -X 'GET' 'https://api.github.com/users/martinos/repos?' \
+    -H 'accept: application/json' \
+    -H 'Content-Type: application/json' \
+    -H 'user-agent: ruby net/http'
+```
+
+
 
 ## Contributing
 
