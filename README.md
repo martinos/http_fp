@@ -51,7 +51,6 @@ pp empty_req
  :body=>""}
 ```
 
-<<<<<<< HEAD
 We apply the `empty_req` to the query that we've built.
 ```ruby
 pp query.(empty_req)
@@ -95,6 +94,12 @@ run_ = -> fn { fn.(empty_req) }
 
 ```run
 query >>~ HttpFp::NetHttp.server >>+ run_
+```
+
+Since a "server" is just a function that takes an HTTP request and returns an HTTP response, instead of using Net::Http interface you can use the `HttpFp::Rack.server` function that takes a rack app as parameter.
+
+```run
+query >>~ HttpFp::Rack.server.(Rails.application) >>+ run_
 ```
 
 
