@@ -124,7 +124,7 @@ the `print` param is a function that prints an object.
 
 ```
 printer = -> a { print a; a } 
-query >>~ debug_fn.(printer).(HttpFp::Rack.server.(Rails.application)) >>+ run_
+query >>~ debug_fn.(printer).(HttpFp::NetHttp.server) >>+ run_
 ```
 
 of course you can change the printer to print to the log file.
