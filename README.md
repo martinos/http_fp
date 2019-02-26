@@ -25,12 +25,12 @@ Here's an example of a request:
  :body=>""}
 ```
 
-To build that request you can use builder functions and the function composition operator ([`>>~`](https://github.com/martinos/http_fp/blob/master/lib/http_fp/operators.rb#L4)). Every builder function adds values to the response object.  Example: 
+To build that request you can use builder functions and the function composition operator ([`>>`](https://docs.ruby-lang.org/en/2.6.0/Proc.html#method-i-3E-3E)). Every builder function adds values to the response object.  Example: 
 
 ```ruby
-query = verb.("get") >>~ 
-        with_path.("/users/martinos/repos") >>~ 
-        with_host.("https://api.github.com") >>~ 
+query = verb.("get") >>
+        with_path.("/users/martinos/repos") >>
+        with_host.("https://api.github.com") >>
         add_headers.(json_headers)
 ```
 The `query` variable is a builder function that is created by combining multiple builder functions together.
@@ -85,21 +85,14 @@ HttpFp::NetHttp.server.(query.(empty_req))
 
 ```
 
-You can also use the pipe operator ([`>>+`](https://github.com/martinos/http_fp/blob/master/lib/http_fp/operators.rb#L8)) and the run function. The `run_` function takes a function as parameter and applies the `empty_req` to it.
-
-Here is it's definition:
 ```ruby
-run_ = -> fn { fn.(empty_req) }
-```
-
-```run
-query >>~ HttpFp::NetHttp.server >>+ run_
+(query >> HttpFp::NetHttp.server).(empty_req)
 ```
 
 Since a "server" is just a function that takes an HTTP request and returns an HTTP response, instead of using Net::Http interface you can use the `HttpFp::Rack.server` function that takes a rack app as parameter.
 
 ```run
-query >>~ HttpFp::Rack.server.(Rails.application) >>+ run_
+query >> HttpFp::Rack.server.(Rails.application)
 ```
 
 ## Middlewares
@@ -124,7 +117,7 @@ the `print` param is a function that prints an object.
 
 ```
 printer = -> a { print a; a } 
-query >>~ debug_fn.(printer).(HttpFp::NetHttp.server) >>+ run_
+query >> debug_fn.(printer).(HttpFp::NetHttp.server)
 ```
 
 of course you can change the printer to print to the log file.
@@ -144,7 +137,7 @@ curl = -> a { puts HttpFp::Curl.req.(a) ; a }.curry
 Then you can use it with the query and the server function.
 
 ```run
-query >>~ curl >>~ HttpFp::NetHttp.server >>+ run_
+query >> curl >> HttpFp::NetHttp.server
 ```
 
 This will output:

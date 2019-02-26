@@ -22,6 +22,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "minitest"
   spec.add_dependency "rake", "~> 10.0"
   spec.add_dependency "rack"
-  spec.add_dependency "activesupport"
-  spec.add_dependency "superators19"
+  spec.add_dependency "fn_reader"
 end

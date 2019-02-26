@@ -1,4 +1,4 @@
-require 'superators19'
+require "superators19"
 
 class Proc
   superator ">>~" do |fn|
@@ -11,5 +11,3 @@ class Object
     fn.(self)
   end
 end
-
-

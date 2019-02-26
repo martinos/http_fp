@@ -1,10 +1,10 @@
-require 'net/http'
-require 'http_fp'
+require "net/http"
+require "http_fp"
 
 module HttpFp::Curl
   include HttpFp
 
-  mattr_accessor :print_curl, :req
+  fn_reader :print_curl, :req
 
   @@req = -> req {
     first_part = %{curl -X '#{req[:method]}' '#{HttpFp::to_uri.(req).to_s}' #{req[:header].map(&@@header_to_curl).join(" ")}}
@@ -15,7 +15,8 @@ module HttpFp::Curl
     end
   }
   @@header_to_curl = -> a {
-    "\\\n    -H '#{a[0]}: #{a[1]}'"}
-  
-  @@print_curl = -> req { $stdout.puts(to_curl.(req)) ; req}.curry
+    "\\\n    -H '#{a[0]}: #{a[1]}'"
+  }
+
+  @@print_curl = -> req { $stdout.puts(to_curl.(req)); req }.curry
 end
