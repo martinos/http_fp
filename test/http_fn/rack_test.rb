@@ -1,15 +1,15 @@
 require "minitest_helper"
 require "rack"
-require "http_fp/rack"
+require "http_fn/rack"
 
 # https://github.com/macournoyer/thin/blob/a7d1174f47a4491a15b505407c0501cdc8d8d12c/spec/request/parser_spec.rb
 # rack sample
 # https://gist.github.com/a1869ea2e5db0563d5772b2eff74ff9f
-class HttpFp::RackTest < MiniTest::Test
-  include HttpFp
+class HttpFn::RackTest < MiniTest::Test
+  include HttpFn
 
   def setup
-    @req = HttpFp.empty_req.then(&with_host.("http://localhost:3000"))
+    @req = HttpFn.empty_req.then(&with_host.("http://localhost:3000"))
   end
 
   def test_upcase_headers

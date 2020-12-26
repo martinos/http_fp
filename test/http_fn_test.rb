@@ -1,8 +1,8 @@
 require "minitest_helper"
-require "http_fp"
+require "http_fn"
 
-class HttpFp::HttpFpTest < Minitest::Test
-  include HttpFp
+class HttpFn::HttpFnTest < Minitest::Test
+  include HttpFn
 
   def test_basic_auth
     req = with_basic_auth.("martin").("secret").(empty_req)

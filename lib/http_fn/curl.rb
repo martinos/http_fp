@@ -1,13 +1,13 @@
 require "net/http"
-require "http_fp"
+require "http_fn"
 
-module HttpFp::Curl
-  include HttpFp
+module HttpFn::Curl
+  include HttpFn
 
   fn_reader :print_curl, :req
 
   @@req = -> req {
-    first_part = %{curl -X '#{req[:method]}' '#{HttpFp::to_uri.(req).to_s}' #{req[:header].map(&@@header_to_curl).join(" ")}}
+    first_part = %{curl -X '#{req[:method]}' '#{HttpFn::to_uri.(req).to_s}' #{req[:header].map(&@@header_to_curl).join(" ")}}
     if req[:body] && !req[:body].empty?
       first_part + %{\n\    -d $'#{req[:body].gsub("'", "\'")}'}
     else

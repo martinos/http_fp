@@ -1,9 +1,9 @@
-require "http_fp"
+require "http_fn"
 require "pp"
 #
 # https://www.diffchecker.com/ihCGIKyG
 
-module HttpFp::Rack
+module HttpFn::Rack
   fn_reader :to_env, :server, :rack_resp_to_resp
 
   @@server = -> rack { to_env >> rack.method(:call) >> rack_resp_to_resp }
@@ -11,7 +11,7 @@ module HttpFp::Rack
     session ||= {}
     session_options ||= {}
 
-    uri = request.then(&HttpFp.to_uri)
+    uri = request.then(&HttpFn.to_uri)
     header = (request[:header] || {}).dup
     body = request[:body] || ""
 

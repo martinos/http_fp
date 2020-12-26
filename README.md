@@ -1,4 +1,4 @@
-# HttpFp
+# HttpFn
 
 Functional http client in Ruby.
 
@@ -69,7 +69,7 @@ pp query.(empty_req)
 In order to `run` the query, you can combine the query with a "server" function (lambda) that takes a "request", sends it to the server and returns a http "response".
 
 ```ruby
-HttpFp::NetHttp.server.(query.(empty_req))
+HttpFn::NetHttp.server.(query.(empty_req))
 
 # => 
 {:status=>"200",
@@ -86,13 +86,13 @@ HttpFp::NetHttp.server.(query.(empty_req))
 ```
 
 ```ruby
-(query >> HttpFp::NetHttp.server).(empty_req)
+(query >> HttpFn::NetHttp.server).(empty_req)
 ```
 
-Since a "server" is just a function that takes an HTTP request and returns an HTTP response, instead of using Net::Http interface you can use the `HttpFp::Rack.server` function that takes a rack app as parameter.
+Since a "server" is just a function that takes an HTTP request and returns an HTTP response, instead of using Net::Http interface you can use the `HttpFn::Rack.server` function that takes a rack app as parameter.
 
 ```run
-query >> HttpFp::Rack.server.(Rails.application)
+query >> HttpFn::Rack.server.(Rails.application)
 ```
 
 ## Middlewares
@@ -117,7 +117,7 @@ the `print` param is a function that prints an object.
 
 ```
 printer = -> a { print a; a } 
-query >> debug_fn.(printer).(HttpFp::NetHttp.server)
+query >> debug_fn.(printer).(HttpFn::NetHttp.server)
 ```
 
 of course you can change the printer to print to the log file.
@@ -131,13 +131,13 @@ printer = -> a { logger.debug(a) ; a }
 If you want to generate documentation with curl commands you can use a simple function such as:
 
 ```
-curl = -> a { puts HttpFp::Curl.req.(a) ; a }.curry
+curl = -> a { puts HttpFn::Curl.req.(a) ; a }.curry
 ```
 
 Then you can use it with the query and the server function.
 
 ```run
-query >> curl >> HttpFp::NetHttp.server
+query >> curl >> HttpFn::NetHttp.server
 ```
 
 This will output:
@@ -153,7 +153,7 @@ curl -X 'GET' 'https://api.github.com/users/martinos/repos?' \
 
 ## Contributing
 
-1. Fork it ( https://github.com/martinos/http_fp/fork )
+1. Fork it ( https://github.com/martinos/http_fn/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)

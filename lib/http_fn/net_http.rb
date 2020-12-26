@@ -1,8 +1,8 @@
 require 'net/http'
-require 'http_fp'
+require 'http_fn'
 
-module HttpFp::NetHttp
-  include HttpFp
+module HttpFn::NetHttp
+  include HttpFn
   mattr_reader :method_str_to_req, :server, :net_resp
 
   @@method_str_to_req = {"GET" => Net::HTTP::Get, "POST" => Net::HTTP::Post, "DELETE" => Net::HTTP::Delete, "PUT" => Net::HTTP::Put, "PATCH" => Net::HTTP::Patch}

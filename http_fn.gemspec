@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'http_fp/version'
+require 'http_fn/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "http_fp"
-  spec.version       = HttpFp::VERSION
+  spec.name          = "http_fn"
+  spec.version       = HttpFn::VERSION
   spec.authors       = ["Martin Chabot"]
   spec.email         = ["chabotm@gmail.com"]
   spec.summary       = %q{Http client that levrage the use of fp principle}

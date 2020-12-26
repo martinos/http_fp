@@ -1,10 +1,10 @@
 require "fn_reader"
 require "uri"
 require "base64"
-require "http_fp/version"
-require "http_fp/utils"
+require "http_fn/version"
+require "http_fn/utils"
 
-module HttpFp
+module HttpFn
   include Utils
 
   fn_reader :verb, :with_host, :with_path, :with_query, :withUri,

@@ -1,13 +1,13 @@
 require "net/http"
-require "http_fp"
+require "http_fn"
 
-module HttpFp::Httpie
-  include HttpFp
+module HttpFn::Httpie
+  include HttpFn
 
   fn_reader :print_curl, :req
 
   @@req = -> req {
-    first_part = %{http #{req[:method]} '#{HttpFp::to_uri.(req).to_s}' #{req[:header].map(&@@header_to_httpie).join(" ")}}
+    first_part = %{http #{req[:method]} '#{HttpFn::to_uri.(req).to_s}' #{req[:header].map(&@@header_to_httpie).join(" ")}}
     if req[:body] && !req[:body].empty?
       %{echo $'#{req[:body].gsub("'", "\'")}' |\\\n#{first_part}}
     else
